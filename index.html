@@ -8,25 +8,27 @@
 <title>Bases 2026–2027 · Disponibilidad</title>
 <style>
 :root{
+  --rosa:#ff4f9a; --rosa-d:#e0357f; --rosa-l:#ffe1ee; --rosa-ll:#fff4f8;
   --green:#58cc02; --green-d:#4aa802; --green-l:#eafce0;
-  --blue:#1cb0f6; --blue-d:#1899d6; --blue-l:#e3f6ff;
+  --blue:#ff4f9a; --blue-d:#e0357f; --blue-l:#ffe1ee;
   --red:#ff4b4b; --red-d:#e02e2e; --red-l:#ffe6e6;
   --yellow:#ffc800; --yellow-d:#d99e00; --yellow-l:#fff6d9;
   --purple:#a560e8; --purple-l:#f2e8fd;
-  --line:#e6e6e6; --line2:#f1f1f1; --sub:#7b7b7b; --sub2:#a8a8a8; --ink:#3a3a3a;
+  --line:#f4d3e2; --line2:#fdeef4; --sub:#8a6076; --sub2:#bb8fa8; --ink:#4a2f3d;
   --safe-b:env(safe-area-inset-bottom,0px); --tab:66px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;min-height:100%}
 body{font-family:'Nunito','Segoe UI Variable','Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
-  background:#e3e6e8;color:var(--ink);font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+  background:linear-gradient(180deg,#ffd8e8,#ffb9d2);color:var(--ink);font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
 button{font:inherit}
-.wrap{max-width:520px;margin:0 auto;background:#fff;min-height:100dvh;box-shadow:0 0 26px rgba(0,0,0,.07)}
+.wrap{max-width:520px;margin:0 auto;background:var(--rosa-ll);min-height:100dvh;box-shadow:0 0 26px rgba(190,60,110,.18)}
 
-#top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:2px solid var(--line2);padding:12px 16px;
+#top{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,#ff86bd,var(--rosa));
+  border-bottom:2px solid var(--rosa-d);padding:12px 16px;color:#fff;
   display:flex;align-items:center;justify-content:space-between;gap:10px}
 #top h1{margin:0;font-size:17px;letter-spacing:-.2px;display:flex;align-items:center;gap:7px}
-#top .tag{font-size:11px;font-weight:800;color:var(--sub);background:var(--line2);padding:5px 9px;border-radius:9px;letter-spacing:.3px}
+#top .tag{font-size:11px;font-weight:800;color:#fff;background:rgba(255,255,255,.28);padding:5px 9px;border-radius:9px;letter-spacing:.3px}
 
 .screens{padding-bottom:calc(var(--tab) + var(--safe-b))}
 .sc{display:none;padding:16px 16px 20px}
@@ -38,27 +40,28 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .note{font-size:12px;color:var(--sub2);font-weight:700;text-align:center;padding:6px;margin:0}
 
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;padding:13px 18px;border:0;
-  border-radius:16px;font-weight:900;font-size:17px;color:#fff;background:var(--green);box-shadow:0 4px 0 var(--green-d);
+  border-radius:16px;font-weight:900;font-size:17px;color:#fff;background:var(--rosa);box-shadow:0 4px 0 var(--rosa-d);
   cursor:pointer;transition:transform .06s}
-.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--green-d)}
-.btn.blue{background:var(--blue);box-shadow:0 4px 0 var(--blue-d)}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--rosa-d)}
+.btn.blue{background:#fff;color:var(--rosa-d);border:2px solid var(--rosa);box-shadow:0 4px 0 #ffc0d8}
+.btn.green{background:var(--green);box-shadow:0 4px 0 var(--green-d)}
 .btn.red{background:var(--red);box-shadow:0 4px 0 var(--red-d)}
-.btn.gray{background:#fff;color:var(--sub);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+.btn.gray{background:#fff;color:var(--rosa-d);box-shadow:0 4px 0 var(--rosa-l);border:2px solid var(--line)}
 .btn.sm{min-height:46px;font-size:15px;border-radius:14px;padding:10px 12px}
 .btn[disabled]{opacity:.4;pointer-events:none}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btns.g1{grid-template-columns:1fr}
 
 .card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
-.lede{background:var(--green-l);border-color:#c8f0b2}
-.lede b{color:var(--green-d)}
+.lede{background:var(--rosa-l);border-color:#ffc2da}
+.lede b{color:var(--rosa-d)}
 
 /* ---------- Bases ---------- */
 .bases{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .bc{position:relative;background:#fff;border:2px solid var(--line);border-radius:18px;padding:0;overflow:hidden;
   box-shadow:0 4px 0 var(--line);text-align:left;cursor:pointer;transition:transform .06s}
 .bc:active{transform:translateY(4px);box-shadow:0 0 0 var(--line)}
-.bc img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f3f3f3}
+.bc img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:var(--rosa-l)}
 .bc .emo{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:52px;background:var(--line2)}
 .bc .info{padding:10px 11px 12px}
 .bc .info b{display:block;font-size:14.5px;line-height:1.2}
@@ -68,15 +71,35 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .bc .badge.r{background:var(--red)}
 .bc .badge.g{background:var(--green)}
 .bc.sel{border-color:var(--blue);box-shadow:0 4px 0 var(--blue-d)}
+.subttl{font-size:12px;font-weight:900;color:var(--sub);text-transform:uppercase;letter-spacing:.5px;
+  margin:16px 0 9px;display:flex;align-items:center;gap:9px}
+.subttl:after{content:"";flex:1;height:2px;background:var(--line);border-radius:2px}
+.brow{display:flex;flex-direction:column;align-items:center;gap:24px}
+.bcell{display:block}
+.bcirc{flex:0 0 auto;width:min(450px,86vw);height:min(450px,86vw);border-radius:50%;padding:0;border:4px solid var(--rosa-l);
+  background:#fff;box-shadow:0 8px 0 var(--rosa-l);overflow:hidden;cursor:pointer;position:relative}
+.bcirc:active{transform:translateY(5px);box-shadow:0 3px 0 var(--rosa-l)}
+.bcirc img{width:100%;height:100%;object-fit:cover;display:block}
+.bcell.sel .bcirc{border-color:var(--rosa);box-shadow:0 8px 0 #ffc0d8}
+.bcirc .dot{position:absolute;right:3%;bottom:3%;width:15%;height:15%;min-width:34px;min-height:34px;border-radius:50%;
+  border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:clamp(13px,3.4vw,22px);
+  font-weight:900;color:#fff}
+.bcirc .dot.g{background:var(--green)}
+.bcirc .dot.r{background:var(--red)}
+.bcirc .dot.y{background:var(--yellow)}
+.dfield{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.dfield input[type=date]{flex:1;min-width:0;border:2px solid var(--line);border-radius:14px;background:var(--line2);
+  padding:12px 14px;font:inherit;font-size:16px;font-weight:800;color:var(--ink);outline:0}
+.dfield input[type=date]:focus{border-color:var(--blue);background:#fff;box-shadow:0 3px 0 var(--blue-d)}
 
 /* ---------- Barra inferior fija ---------- */
-.pbar{position:sticky;bottom:calc(var(--tab) + var(--safe-b));z-index:45;background:#fff;border-top:2px solid var(--line2);
+.pbar{position:sticky;bottom:calc(var(--tab) + var(--safe-b));z-index:45;background:var(--rosa-ll);border-top:2px solid var(--line2);
   padding:11px 16px;margin:16px -16px 0}
 .pbar .hint{font-size:11.5px;font-weight:800;color:var(--sub);text-align:center;margin-bottom:7px}
 
 /* ---------- Calendario ---------- */
 .head{display:flex;gap:12px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px;margin-bottom:14px}
-.head .ph{width:62px;height:62px;border-radius:16px;overflow:hidden;flex:0 0 auto;background:var(--line2);display:flex;align-items:center;justify-content:center;font-size:30px}
+.head .ph{width:62px;height:62px;border-radius:16px;overflow:hidden;flex:0 0 auto;background:var(--rosa-l);display:flex;align-items:center;justify-content:center;font-size:30px}
 .head .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .head .tx b{display:block;font-size:16px;line-height:1.2}
 .head .tx span{display:block;font-size:12px;color:var(--sub);font-weight:800;margin-top:3px}
@@ -93,10 +116,10 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .day{position:relative;aspect-ratio:1/1;border:2px solid transparent;background:#fff;border-radius:13px;
   font-weight:800;font-size:15px;color:var(--ink);padding:0;cursor:pointer}
 .day.pad{visibility:hidden}
-.day.out{color:#cfcfcf;pointer-events:none}
+.day.out{color:#e2c3d3;pointer-events:none}
 .day.busy{background:var(--red-l)}
 .day.busy:after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:var(--red)}
-.day.evt{background:#f6f6f6}
+.day.evt{background:var(--rosa-l)}
 .day.evt:after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--sub2)}
 .day.sel{background:var(--green);border-color:var(--green-d);color:#fff;box-shadow:0 3px 0 var(--green-d)}
 .day.sel.busy,.day.sel.evt{background:var(--green)}
@@ -116,7 +139,7 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .lrow .go{color:var(--sub2);font-weight:900}
 
 /* ---------- Resultado ---------- */
-.flash{width:132px;height:132px;border-radius:26px;overflow:hidden;margin:0 auto 12px;background:#f2f2f2;border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.flash{width:132px;height:132px;border-radius:26px;overflow:hidden;margin:0 auto 12px;background:var(--rosa-l);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
 .flash img{width:100%;height:100%;object-fit:cover;display:block}
 .flash.emo{display:flex;align-items:center;justify-content:center;font-size:60px}
 .flashes{display:flex;gap:10px;justify-content:center}
@@ -177,11 +200,11 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .chip.rd{background:var(--red);border-color:var(--red-d);color:#fff;box-shadow:0 3px 0 var(--red-d)}
 .chip.gr{background:var(--green);border-color:var(--green-d);color:#fff;box-shadow:0 3px 0 var(--green-d)}
 
-#tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:#fff;border-top:2px solid var(--line);padding-bottom:var(--safe-b)}
+#tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:var(--rosa-ll);border-top:2px solid var(--rosa-l);padding-bottom:var(--safe-b)}
 #tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:var(--tab);
   border:0;background:none;color:var(--sub2);font-size:10px;font-weight:900;cursor:pointer}
 #tabbar em{font-size:20px;font-style:normal;line-height:1}
-#tabbar button.on{color:var(--green-d)}
+#tabbar button.on{color:var(--rosa-d)}
 .cnt{background:var(--red);color:#fff;border-radius:9px;font-size:10px;padding:1px 6px;margin-left:4px}
 @media(min-width:560px){#tabbar{width:520px;left:50%;transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -197,7 +220,10 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
   <div class="screens" id="screens">
 
     <section class="sc on" id="sc-bases">
-      <p class="lead" id="baseLead">Toca la base que quieres apartar y luego elige la fecha.</p>
+      <p class="lead" id="baseLead">Toca la foto de la base y escribe la fecha. Te digo si está disponible.</p>
+      <div class="subttl">Con foto</div>
+      <div class="brow" id="baseRow"></div>
+      <div class="subttl" id="restTtl">Sin foto</div>
       <div class="bases" id="baseGrid"></div>
       <p class="note" id="baseNote">—</p>
     </section>
@@ -209,6 +235,11 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
         <button class="chg" data-act="to-bases">cambiar</button>
       </div>
       <div class="card">
+        <div class="dfield">
+          <input type="date" id="dIn" min="2026-07-01" max="2027-12-31">
+          <button class="btn blue" data-act="check">Ver</button>
+        </div>
+        <p class="err" id="dErr" hidden></p>
         <div class="calhead">
           <button class="navb" data-act="mon" data-d="-1">‹</button>
           <b id="calTitle">—</b>
@@ -257,7 +288,7 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
       <div class="head">
         <div class="ph" id="fPh"></div>
         <div class="tx"><b id="fName">—</b><span id="fDate">—</span></div>
-        <button class="chg" data-act="to-res">verdict</button>
+        <button class="chg" data-act="to-res">ver resultado</button>
       </div>
       <p class="err" id="fErr" hidden>Falta el nombre del cliente.</p>
       <div class="card">
@@ -416,23 +447,38 @@ function nextFree(bid,from){
   return null;
 }
 function isAparte(d,bid){return S.res.some(function(r){return r.d===d&&r.b===bid;});}
+function isAparteAny(bid){return S.res.some(function(r){return r.b===bid;});}
 
 /* ---------------- Pantalla 1: bases ---------------- */
 function renderBases(){
   const t=today(),start=inRange(t)?t:RMIN;
-  $("#baseGrid").innerHTML=BASES.map(function(b){
+  const conFoto=BASES.filter(function(b){return imgsOf(b).length;});
+  const sinFoto=BASES.filter(function(b){return !imgsOf(b).length;});
+
+  $("#baseRow").innerHTML=conFoto.map(function(b){
+    const u=usage(b.id),apart=isAparteAny(b.id);
+    const dot=apart?"y":(u?"r":"g");
+    return '<div class="bcell'+(V.base===b.id?" sel":"")+'">'+
+      '<button class="bcirc" data-act="pickbase" data-b="'+b.id+'" aria-label="Base con foto">'+
+      '<img src="'+imgsOf(b)[0]+'" alt="">'+
+      '<span class="dot '+dot+'">'+(apart?"🔖":(u?u:""))+"</span></button></div>";
+  }).join("");
+
+  $("#baseGrid").innerHTML=sinFoto.map(function(b){
     const u=usage(b.id),nf=nextFree(b.id);
     return '<button class="bc" data-act="pickbase" data-b="'+b.id+'">'+
       '<span class="badge '+(u?"r":"g")+'">'+(u?u+" ocupada"+(u>1?"s":""):"libre")+'</span>'+
-      (imgsOf(b).length?'<img src="'+imgsOf(b)[0]+'" alt="'+b.n+'">':'<span class="emo">'+b.e+"</span>")+
+      '<span class="emo">'+b.e+"</span>"+
       '<span class="info"><b>'+b.n+"</b><span>"+b.d+"</span>"+
       '<span class="pill '+(u?"r":"g")+'" style="margin-top:6px">'+(nf?"libre el "+shortD(nf):"sin fechas libres")+"</span></span></button>";
   }).join("");
+  $("#restTtl").hidden=!sinFoto.length;
   const libres=BASES.filter(function(b){return usage(b.id)===0;}).length;
   $("#baseLead").innerHTML=V.date
-    ? 'Comparando el <b>'+longD(V.date)+"</b>. Toca otra base para ver si ese día está libre."
-    : "Toca la base que quieres apartar y luego elige la fecha.";
-  $("#baseNote").textContent=BASES.length+" bases · "+libres+" sin uso en la agenda · "+(inRange(t)?"Hoy es "+shortD(t)+". ":"Fuera de rango, empieza el "+shortD(RMIN)+". ");
+    ? 'Última consulta: <b>'+longD(V.date)+"</b>. Toca otra foto para comparar ese día."
+    : "Toca la foto de la base y escribe la fecha. Te digo si está disponible.";
+  $("#baseNote").textContent=BASES.length+" bases · "+conFoto.length+" con foto y "+sinFoto.length+" sin foto · "+
+    libres+" sin uso en la agenda · "+(inRange(t)?"Hoy es "+shortD(t)+". ":"Fuera de rango, empieza el "+shortD(RMIN)+". ");
   $("#tag").textContent=EVENTS.length+" eventos";
   const c=$("#resvCnt");
   c.textContent=S.res.length;c.hidden=!S.res.length;
@@ -447,7 +493,8 @@ function renderCal(){
   $("#calName").textContent=b.n;
   $("#calSub").textContent=u?(u+" fecha"+(u>1?"s":"")+" ocupada"+(u>1?"s":"")):"Sin fechas ocupadas en 2026–2027";
   const busy=busyDates(b.id);
-  $("#calHint").textContent=busy.length?("Ojo: "+busy.length+" día(s) ya bipolar(es) con esta base"):"Esta base no aparece ocupada en ninguna fecha";
+  $("#calHint").textContent=busy.length?("Ojo: esa base ya está ocupada en "+busy.length+" día(s)"):"Esta base no aparece ocupada en ninguna fecha";
+  const di=$("#dIn");if(di)di.value=V.date||(V.cal?fmtD(V.cal):"");
 
   const d=V.cal||parseD(startDay());
   V.cal=d;
@@ -479,6 +526,21 @@ function renderCal(){
   }).join("");
 }
 function startDay(){const t=today();return inRange(t)?t:RMIN;}
+function setDate(s){
+  if(!s)return;
+  const err=$("#dErr");
+  if(err)err.hidden=true;
+  if(!inRange(s)){
+    if(err){err.hidden=false;err.textContent="No tengo datos de esa fecha. Solo hay agenda del 1 de julio de 2026 al 31 de diciembre de 2027.";}
+    return;
+  }
+  V.date=s;
+  V.last={b:V.base,d:s};
+  const p=s.split("-").map(Number);
+  V.cal=new Date(p[0],p[1]-1,1);
+  const di=$("#dIn");if(di)di.value=s;
+  go("res");
+}
 
 /* ---------------- Pantalla 3: resultado ---------------- */
 function evCard(e,busy){
@@ -508,7 +570,7 @@ function renderRes(){
   const other=evByDate(s).filter(function(e){return hit.indexOf(e)<0&&rel.indexOf(e)<0;});
   let v;
   if(hit.length)v='<div class="verdict r"><div class="st">No disponible</div><b>OCUPADA</b><span>'+b.e+" "+b.n+" · "+shortD(s)+"</span></div>";
-  else if(rel.length)v='<div class="verdict y"><div class="st">Disponible con caution</div><b>LIBRE</b><span>Ese día usaron una base parecida ('+rel[0].c+")</span></div>";
+  else if(rel.length)v='<div class="verdict y"><div class="st">Disponible con advertencia</div><b>LIBRE</b><span>Ese día usaron una base parecida ('+rel[0].c+")</span></div>";
   else v='<div class="verdict g"><div class="st">Sí disponible</div><b>DISPONIBLE</b><span>'+b.e+" "+b.n+" · "+shortD(s)+"</span></div>";
   $("#resVerdict").innerHTML=v;
 
@@ -648,18 +710,15 @@ if(a==="pickbase"){
     go("cal");return;
   }
   if(a==="to-bases"){V.date=null;go("bases");return;}
-  if(a==="to-cal"){go("cal");return;}
+  if(a==="to-cal"){V.date=null;go("cal");return;}
+  if(a==="check"){setDate(val("dIn"));return;}
   if(a==="pick-keep"){V.date=V.last.d;const p=V.date.split("-").map(Number);V.cal=new Date(p[0],p[1]-1,1);go("bases");return;}
   if(a==="mon"){
     const p=parseD(fmtD(V.cal)).getFullYear(),m=parseD(fmtD(V.cal)).getMonth();
     V.cal=new Date(p,m+(+t.getAttribute("data-d")),1);
     renderCal();return;
   }
-  if(a==="pick"){
-    V.date=t.getAttribute("data-d");
-    V.last={b:V.base,d:V.date};
-    go("res");return;
-  }
+  if(a==="pick"){setDate(t.getAttribute("data-d"));return;}
   if(a==="apartar"){openForm();return;}
   if(a==="edit-apartar"){openForm(t.getAttribute("data-id"));return;}
   if(a==="save-apartar"){saveApartar();return;}
