@@ -208,9 +208,32 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .cnt{background:var(--red);color:#fff;border-radius:9px;font-size:10px;padding:1px 6px;margin-left:4px}
 @media(min-width:560px){#tabbar{width:520px;left:50%;transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#lock{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:22px;
+  background:linear-gradient(160deg,#ff9ec8,#ff4f9a)}
+#lock .lk{width:100%;max-width:360px;background:#fff;border:3px solid var(--rosa-d);border-radius:24px;
+  padding:26px 22px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.16)}
+#lock .cake{font-size:56px;line-height:1}
+#lock b{display:block;font-size:20px;margin:8px 0 4px}
+#lock p{margin:0 0 16px;font-size:13.5px;font-weight:800;color:var(--sub)}
+#lock input{width:100%;min-height:54px;border:2px solid var(--line);border-radius:16px;background:var(--rosa-ll);
+  padding:12px 16px;font:inherit;font-size:17px;font-weight:900;text-align:center;letter-spacing:2px;
+  color:var(--ink);outline:0;margin-bottom:12px}
+#lock input:focus{border-color:var(--rosa);background:#fff;box-shadow:0 3px 0 #ffc0d8}
+#lock .lkerr{color:var(--red-d);font-size:13px;font-weight:900;margin:-6px 0 10px}
+body.locked #lock{display:flex}
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="lock">
+  <div class="lk">
+    <div class="cake">🎂</div>
+    <b>Bases 2026–2027</b>
+    <p>Escribe la clave para ver la agenda.</p>
+    <input id="lkIn" type="password" placeholder="• • • • •" autocomplete="off">
+    <p class="lkerr" id="lkErr" hidden>Clave incorrecta, inténtalo de nuevo</p>
+    <button class="btn" data-act="unlock">Abrir agenda</button>
+  </div>
+</div>
 <div class="wrap">
   <header id="top">
     <h1>🎂 Bases <span>2026–2027</span></h1>
@@ -719,6 +742,7 @@ if(a==="pickbase"){
     renderCal();return;
   }
   if(a==="pick"){setDate(t.getAttribute("data-d"));return;}
+  if(a==="unlock"){unlock();return;}
   if(a==="apartar"){openForm();return;}
   if(a==="edit-apartar"){openForm(t.getAttribute("data-id"));return;}
   if(a==="save-apartar"){saveApartar();return;}
@@ -739,7 +763,19 @@ function boot(){
   const t=today();
   V.cal=parseD(startDay());
   $$("#fPas,#fLug").forEach(function(el){el.addEventListener("input",function(){grow(el);});});
+  try{if(localStorage.getItem("bases_ok")==="1")document.body.classList.remove("locked");}catch(e){}
+  const li=$("#lkIn");
+  if(li)li.addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
   renderBases();renderAgenda();renderResv();
+}
+const LLAVE="RG9sY2VNZXphMjM=";
+function unlock(){
+  const v=val("lkIn"),e=$("#lkErr");
+  let ok=false;
+  try{ok=btoa(unescape(encodeURIComponent(v)))===LLAVE;}catch(x){ok=false;}
+  if(!ok){if(e)e.hidden=false;$("#lkIn").value="";return;}
+  try{localStorage.setItem("bases_ok","1");}catch(x){}
+  document.body.classList.remove("locked");
 }
 boot();
 </script>
