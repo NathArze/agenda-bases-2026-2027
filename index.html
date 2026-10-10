@@ -696,6 +696,8 @@ function renderResv(){
 }
 
 /* ---------------- Apartar ---------------- */
+const WA="522214089791";
+function waSendText(t){try{window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(t),"_blank","noopener");}catch(e){}}
 function openForm(id){
   const r=id?S.res.filter(function(x){return x.id===id;})[0]:null;
   V.edit=id||null;
@@ -721,7 +723,16 @@ function saveApartar(){
     S.res.unshift({id:"r"+Date.now(),d:d,b:b,cli:cli,pas:pas,lug:lug,acu:acu});
   }
   V.edit=null;
-  save();renderResv();renderBases();renderRes();go("resv");
+  save();
+  const bnm=(BM[b]||{}).n||b;
+  waSendText("*Apartado de base*\n"+
+    "Cliente: "+cli+"\n"+
+    "Fecha: "+longD(d)+"\n"+
+    "Base: "+bnm+"\n"+
+    (pas?"Pastel: "+pas+"\n":"")+
+    (lug?"Lugar: "+lug+"\n":"")+
+    (acu?"A cuenta: $"+acu:""));
+  renderResv();renderBases();renderRes();go("resv");
 }
 
 /* ---------------- Navegación ---------------- */
