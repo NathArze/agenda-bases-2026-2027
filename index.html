@@ -224,7 +224,7 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
   <div class="screens" id="screens">
 
     <section class="sc on" id="sc-bases">
-      <p class="lead" id="baseLead">Toca la foto de la base y escribe la fecha. Te digo si está disponible.</p>
+      <p class="lead" id="baseLead" hidden></p>
       <div class="subttl">Con foto</div>
       <div class="brow" id="baseRow"></div>
       <div class="subttl" id="restTtl">Sin foto</div>
@@ -468,9 +468,9 @@ function renderBases(){
   }).join("");
   $("#restTtl").hidden=!sinFoto.length;
   const libres=BASES.filter(function(b){return usage(b.id)===0;}).length;
-  $("#baseLead").innerHTML=V.date
-    ? 'Última consulta: <b>'+longD(V.date)+"</b>. Toca otra foto para comparar ese día."
-    : "Toca la foto de la base y escribe la fecha. Te digo si está disponible.";
+  const lead=$("#baseLead");
+  lead.innerHTML=V.date?'Última consulta: <b>'+longD(V.date)+"</b>. Toca otra foto para comparar ese día.":"";
+  lead.hidden=!V.date;
   $("#baseNote").textContent=BASES.length+" bases · "+conFoto.length+" con foto y "+sinFoto.length+" sin foto · "+
     libres+" sin uso en la agenda · "+(inRange(t)?"Hoy es "+shortD(t)+". ":"Fuera de rango, empieza el "+shortD(RMIN)+". ");
   $("#tag").textContent=EVENTS.length+" eventos";
