@@ -212,13 +212,38 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 .cnt{background:var(--red);color:#fff;border-radius:9px;font-size:10px;padding:1px 6px;margin-left:4px}
 @media(min-width:560px){#tabbar{width:520px;left:50%;transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Tutorial primera vez */
+.tut{position:fixed;inset:0;z-index:120}
+.tut[hidden]{display:none}
+.tutSpot{position:fixed;border-radius:16px;border:2px solid #fff;box-shadow:0 0 0 9999px rgba(46,12,28,.62);
+  transition:left .25s ease,top .25s ease,width .25s ease,height .25s ease;pointer-events:none}
+.tutSpot.none{display:none}
+.tut.dim{background:rgba(46,12,28,.62)}
+.tutCard{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tab) + var(--safe-b) + 20px);
+  width:min(400px,calc(100% - 28px));background:#fff;border:2px solid var(--rosa-l);border-radius:18px;
+  padding:15px 16px 13px;box-shadow:0 18px 42px rgba(78,20,44,.38);animation:inTut .28s ease}
+@keyframes inTut{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%)}}
+.tutStep{font-size:10.5px;font-weight:900;letter-spacing:.6px;color:var(--rosa-d);text-transform:uppercase}
+.tutCard h3{margin:4px 0 6px;font-size:17px;color:var(--ink)}
+.tutCard p{margin:0;font-size:13.5px;line-height:1.45;color:var(--sub);font-weight:600}
+.tutDots{display:flex;gap:6px;margin:13px 0 11px}
+.tutDots i{width:7px;height:7px;border-radius:50%;background:var(--rosa-l);transition:.2s}
+.tutDots i.on{background:var(--rosa-d);width:20px}
+.tutBtns{display:flex;gap:9px}
+.tutBtns button{flex:1;border:0;border-radius:12px;padding:11px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit}
+#tutSkip{flex:.7;background:var(--rosa-ll);color:var(--sub)}
+#tutNext{background:linear-gradient(135deg,var(--rosa),var(--rosa-d));color:#fff}
+.hright{display:flex;align-items:center;gap:8px}
+.help{width:31px;height:31px;flex:0 0 31px;border-radius:50%;border:0;background:rgba(255,255,255,.28);color:#fff;
+  font-size:15px;font-weight:900;line-height:1;cursor:pointer;font-family:inherit;padding:0}
+.help:active{background:rgba(255,255,255,.42)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header id="top">
     <div class="brand"><img class="logo" src="data:image/png;base64,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" alt=""><h1>Agenda bases <span>2026-2027</span></h1></div>
-    <span class="tag" id="tag">-</span>
+    <div class="hright"><span class="tag" id="tag">-</span><button class="help" id="helpBtn" data-act="help" type="button" aria-label="Ver tutorial">?</button></div>
   </header>
 
   <div class="screens" id="screens">
@@ -320,6 +345,20 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
   <button data-act="tab" data-tab="agenda"><em>📅</em>Agenda</button>
   <button data-act="tab" data-tab="resv"><em>🔖</em>Apartadas<span class="cnt" id="resvCnt" hidden>0</span></button>
 </nav>
+
+<div id="tut" class="tut" hidden>
+  <div class="tutSpot none" id="tutSpot"></div>
+  <div class="tutCard" id="tutCard">
+    <div class="tutStep" id="tutStep">1/5</div>
+    <h3 id="tutTitle">-</h3>
+    <p id="tutText">-</p>
+    <div class="tutDots" id="tutDots"></div>
+    <div class="tutBtns">
+      <button id="tutSkip" data-act="tut-skip" type="button">Saltar</button>
+      <button id="tutNext" data-act="tut-next" type="button">Siguiente</button>
+    </div>
+  </div>
+</div>
 
 <script>
 "use strict";
@@ -732,13 +771,52 @@ if(a==="pickbase"){
   }
   if(a==="fy"){V.agY=t.getAttribute("data-y");renderAgenda();return;}
   if(a==="fb"){V.agB=t.getAttribute("data-b");renderAgenda();return;}
+  if(a==="tut-next"){tutNext();return;}
+  if(a==="tut-skip"){tutClose();return;}
+  if(a==="help"){tutShow(0);return;}
 });
+
+/* ---------------- Tutorial primera vez ---------------- */
+const TUT_KEY="bases_tut_v1";
+const TUT=[
+ {t:"¡Bienvenido! 👋",d:"Te muestro en 3 pasos los apartados: Bases, Agenda y Apartadas.",sel:null},
+ {t:"Bases",d:"Toca la foto de una base, escribe la fecha y te digo al instante si está libre u ocupada ese día.",sel:'[data-tab="bases"]'},
+ {t:"Agenda",d:"Todos los pedidos de 2026 y 2027 ordenados por mes: quién, qué base y qué día.",sel:'[data-tab="agenda"]'},
+ {t:"Apartadas",d:"Guarda apartados tentativos (cliente, fecha y base) para no chocar con otros pedidos.",sel:'[data-tab="resv"]'},
+ {t:"¡Listo! 🎂",d:"Puedes repetir este recorrido cuando quieras con el botón ? de arriba.",sel:null}
+];
+let tutI=0;
+function tutPos(){
+  const st=TUT[tutI],el=st.sel?document.querySelector(st.sel):null,sp=$("#tutSpot"),box=$("#tut");
+  if(!el){sp.classList.add("none");box.classList.add("dim");return;}
+  box.classList.remove("dim");sp.classList.remove("none");
+  const r=el.getBoundingClientRect(),m=8;
+  sp.style.left=(r.left-m)+"px";sp.style.top=(r.top-m)+"px";
+  sp.style.width=(r.width+2*m)+"px";sp.style.height=(r.height+2*m)+"px";
+}
+function tutShow(i){
+  tutI=Math.max(0,Math.min(TUT.length-1,i));
+  const st=TUT[tutI];
+  $("#tutStep").textContent=(tutI+1)+"/"+TUT.length;
+  $("#tutTitle").textContent=st.t;
+  $("#tutText").textContent=st.d;
+  $("#tutDots").innerHTML=TUT.map(function(_,k){return '<i class="'+(k===tutI?"on":"")+'"></i>';}).join("");
+  $("#tutNext").textContent=tutI===TUT.length-1?"Entendido":"Siguiente";
+  $("#tutSkip").hidden=tutI===TUT.length-1;
+  $("#tut").hidden=false;
+  requestAnimationFrame(tutPos);
+}
+function tutClose(){$("#tut").hidden=true;try{localStorage.setItem(TUT_KEY,"1");}catch(e){}}
+function tutNext(){if(tutI>=TUT.length-1)tutClose();else tutShow(tutI+1);}
 
 function boot(){
   const t=today();
   V.cal=parseD(startDay());
   $$("#fPas,#fLug").forEach(function(el){el.addEventListener("input",function(){grow(el);});});
   renderBases();renderAgenda();renderResv();
+  window.addEventListener("resize",function(){if(!$("#tut").hidden)tutPos();});
+  window.addEventListener("scroll",function(){if(!$("#tut").hidden)tutPos();},true);
+  try{if(!localStorage.getItem(TUT_KEY))setTimeout(function(){tutShow(0);},400);}catch(e){}
 }
 boot();
 </script>
