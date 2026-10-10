@@ -398,7 +398,7 @@ const EVENTS=[
   bt:"Base por definir",o:"Por definir.",pr:"—",ad:"—",de:"—"}
 ];
 const PEND=[
- {y:"2027",bs:["perla8"],bt:"Base listón 8 pzs + falta otra base",o:"100 y 150 personas."}
+ {y:"2027",m:"2027-07",bs:["perla8"],bt:"Base listón 8 pzs + falta otra base",o:"100 y 150 personas."}
 ];
 
 const RMIN="2026-07-01", RMAX="2027-12-31";
@@ -622,15 +622,18 @@ function renderAgenda(){
   let list=EVENTS.slice();
   if(V.agY!=="all")list=list.filter(function(e){return e.d.slice(0,4)===V.agY;});
   if(V.agB!=="all")list=list.filter(function(e){return e.bs.indexOf(V.agB)>=0||e.rl.indexOf(V.agB)>=0;});
-  list.sort(function(a,c){return a.d<c.d?-1:a.d>c.d?1:0;});
-  let h="",cur="";
-  list.forEach(function(e){
-    const k=e.d.slice(0,7);
-    if(k!==cur){cur=k;const p=k.split("-");h+="<h2>"+MON[+p[1]-1]+" "+p[0]+"</h2>";}
-    h+=evCard(e,false);
+  let items=list.map(function(e){return {sort:e.d,month:e.d.slice(0,7),html:evCard(e,false)};});
+  if(V.agY==="all"||V.agY==="2027")PEND.forEach(function(p){
+    if(V.agB!=="all"&&p.bs.indexOf(V.agB)<0)return;
+    const mm=p.m.split("-")[1],b=BM[p.bs[0]]||{},ph=imgsOf(b)[0];
+    items.push({sort:p.m+"-99",month:p.m,html:'<div class="ev"><div class="d"><u>'+MON[+mm-1].slice(0,3)+'</u><s>?</s><u>'+p.y+'</u></div><div class="ph">'+(ph?'<img src="'+ph+'" alt="">':(b.e||"📅"))+'</div><div class="body"><b>'+p.bt+'</b><small>Día por confirmar'+(p.o?' · '+p.o:"")+'</small></div></div>'});
   });
-  const pend=PEND.filter(function(p){return (V.agY==="all"||V.agY===p.y)&&(V.agB==="all"||p.bs.indexOf(V.agB)>=0);});
-  if(pend.length){h+='<h2>Por confirmar</h2>'+pend.map(function(p){const b=BM[p.bs[0]]||{},ph=imgsOf(b)[0];return '<div class="ev"><div class="d"><u>por</u><s>?</s><u>'+p.y+'</u></div><div class="ph">'+(ph?'<img src="'+ph+'" alt="">':(b.e||"📅"))+'</div><div class="body"><b>'+p.bt+'</b><small>Fecha por confirmar'+(p.o?' · '+p.o:"")+'</small></div></div>';}).join("");}
+  items.sort(function(a,c){return a.sort<c.sort?-1:a.sort>c.sort?1:0;});
+  let h="",cur="";
+  items.forEach(function(it){
+    if(it.month!==cur){cur=it.month;const p=cur.split("-");h+="<h2>"+MON[+p[1]-1]+" "+p[0]+"</h2>";}
+    h+=it.html;
+  });
   $("#agList").innerHTML=h||'<div class="card">Sin eventos con ese filtro.</div>';
 }
 
