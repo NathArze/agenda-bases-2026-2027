@@ -643,7 +643,7 @@ function renderRes(){
       (mine.lug?'<div class="row"><u>Lugar</u><span>'+mine.lug+"</span></div>":"")+
       (mine.src?'<div class="row"><u>Origen</u><span>'+mine.src+"</span></div>":"")+
       '<div class="row"><u>A cuenta</u><span><b style="color:var(--green-d)">'+money(mine.acu)+"</b></span></div>"+
-      '<div class="tools"><button class="chip" data-act="edit-apartar" data-id="'+mine.id+'">✏️ Editar datos</button></div></div>';
+      '<div class="tools"><button class="chip" data-act="edit-apartar" data-id="'+mine.id+'">✏️ Editar datos</button><button class="chip" data-act="share-res" data-id="'+mine.id+'">📤 Al grupo</button></div></div>';
   }
   $("#resBody").innerHTML=body;
 
@@ -703,6 +703,7 @@ function renderResv(){
       '<div class="row"><u>Estado</u><span>'+(q.length?'🚫 Choca con un evento agendado ("'+q[0].c+")":'✅ Sin conflicto en la agenda')+"</span></div>"+
       '<div class="row"><u>—</u><div class="tools">'+
         '<button class="chip" data-act="edit-apartar" data-id="'+r.id+'">✏️ Editar</button>'+
+        '<button class="chip" data-act="share-res" data-id="'+r.id+'">📤 Al grupo</button>'+
         '<button class="chip rd" data-act="unres" data-id="'+r.id+'">🗑 Quitar</button>'+
       "</div></div></div></div>";
   }).join("");
@@ -711,6 +712,18 @@ function renderResv(){
 /* ---------------- Apartar ---------------- */
 const WA="522214089791";
 function waSendText(t){try{window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(t),"_blank","noopener");}catch(e){}}
+function waShareText(t){try{window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank","noopener");}catch(e){}}
+function msgOf(r){
+  const bnm=(BM[r.b]||{}).n||r.b;
+  return "*Apartado de base*\n"+
+    "Cliente: "+(r.cli||"")+"\n"+
+    "Fecha: "+longD(r.d)+"\n"+
+    "Base: "+bnm+"\n"+
+    (r.src?"Origen: "+r.src+"\n":"")+
+    (r.pas?"Pastel: "+r.pas+"\n":"")+
+    (r.lug?"Lugar: "+r.lug+"\n":"")+
+    (r.acu?"A cuenta: $"+r.acu:"");
+}
 function openForm(id){
   const r=id?S.res.filter(function(x){return x.id===id;})[0]:null;
   V.edit=id||null;
@@ -730,22 +743,17 @@ function saveApartar(){
   const cli=val("fCli"),pas=val("fPas"),lug=val("fLug"),acu=val("fAcu"),src=val("fSrc");
   if(!cli){$("#fErr").hidden=false;$("#wCli").classList.add("bad");$("#fCli").focus();return;}
   const b=V.formB,d=V.formD;
+  let rec;
   if(V.edit){
-    S.res=S.res.map(function(x){return x.id===V.edit?{id:x.id,d:x.d,b:x.b,cli:cli,pas:pas,lug:lug,acu:acu,src:src}:x;});
+    S.res=S.res.map(function(x){return x.id===V.edit?Object.assign({},x,{cli:cli,pas:pas,lug:lug,acu:acu,src:src}):x;});
+    rec=S.res.filter(function(x){return x.id===V.edit;})[0];
   }else{
-    S.res.unshift({id:"r"+Date.now(),d:d,b:b,cli:cli,pas:pas,lug:lug,acu:acu,src:src});
+    rec={id:"r"+Date.now(),d:d,b:b,cli:cli,pas:pas,lug:lug,acu:acu,src:src};
+    S.res.unshift(rec);
   }
   V.edit=null;
   save();
-  const bnm=(BM[b]||{}).n||b;
-  waSendText("*Apartado de base*\n"+
-    "Cliente: "+cli+"\n"+
-    "Fecha: "+longD(d)+"\n"+
-    "Base: "+bnm+"\n"+
-    (src?"Origen: "+src+"\n":"")+
-    (pas?"Pastel: "+pas+"\n":"")+
-    (lug?"Lugar: "+lug+"\n":"")+
-    (acu?"A cuenta: $"+acu:""));
+  waSendText(msgOf(rec));
   renderResv();renderBases();renderRes();go("resv");
 }
 
@@ -786,6 +794,12 @@ if(a==="pickbase"){
   if(a==="edit-apartar"){openForm(t.getAttribute("data-id"));return;}
   if(a==="save-apartar"){saveApartar();return;}
   if(a==="to-res"){go("res");return;}
+  if(a==="share-res"){
+    const id=t.getAttribute("data-id");
+    const rec=S.res.filter(function(x){return x.id===id;})[0];
+    if(rec)waShareText(msgOf(rec));
+    return;
+  }
   if(a==="unres"){
     const id=t.getAttribute("data-id");
     S.res=S.res.filter(function(x){return x.id!==id;});
