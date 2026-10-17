@@ -324,8 +324,10 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
       <div class="card">
         <label class="fld" id="wCli"><span>Cliente</span>
           <input id="fCli" type="text" placeholder="Ej: Ma. Teresa" autocomplete="off"></label>
-        <label class="fld" id="wPas"><span>Pastel</span>
-          <textarea id="fPas" rows="2" placeholder="Escribe libre: sabores, tamaño, decoración…"></textarea></label>
+        <label class="fld" id="wPed"><span>Pedido (pastel, sabores, etc.)</span>
+          <textarea id="fPed" rows="3" placeholder="Describe el pastel, sabores, cantidad de personas, detalles..."></textarea></label>
+        <label class="fld" id="wDeco"><span>Decoración (opcional)</span>
+          <textarea id="fDeco" rows="2" placeholder="Detalles de decoración, colores, diseños..."></textarea></label>
         <label class="fld" id="wLug"><span>Lugar del evento</span>
           <textarea id="fLug" rows="2" placeholder="Salón o domicilio completo"></textarea></label>
         <label class="fld" id="wSrc"><span>Origen del pedido</span>
@@ -337,8 +339,12 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
             <option>WhatsApp</option>
             <option>Sucursal</option>
           </select></label>
-        <label class="fld" id="wAcu"><span>Dejó a cuenta</span>
+        <label class="fld" id="wAcu"><span>A cuenta</span>
           <div class="money"><i>$</i><input id="fAcu" type="text" inputmode="decimal" placeholder="0.00"></div></label>
+        <label class="fld" id="wCob"><span>Por cobrar</span>
+          <div class="money"><i>$</i><input id="fCob" type="text" inputmode="decimal" placeholder="0.00"></div></label>
+        <label class="fld" id="wCob"><span>Por cobrar</span>
+          <div class="money"><i>$</i><input id="fCob" type="text" inputmode="decimal" placeholder="0.00"></div></label>
       </div>
       <div class="pbar">
         <button class="btn" data-act="save-apartar">Guardar apartado</button>
@@ -649,7 +655,7 @@ function renderRes(){
     body+='<div class="card" style="background:var(--green-l);border-color:#c8f0b2">'+
       '<b>🔖 Apartada por ti</b>'+
       '<div class="row"><u>Cliente</u><span>'+(mine.cli||"—")+"</span></div>"+
-      (mine.pas?'<div class="row"><u>Pastel</u><span>'+mine.pas+"</span></div>":"")+
+      (mine.ped?'<div class="row"><u>Pastel</u><span>'+mine.ped+"</span></div>":"")+
       (mine.lug?'<div class="row"><u>Lugar</u><span>'+mine.lug+"</span></div>":"")+
       (mine.src?'<div class="row"><u>Origen</u><span>'+mine.src+"</span></div>":"")+
       '<div class="row"><u>A cuenta</u><span><b style="color:var(--green-d)">'+money(mine.acu)+"</b></span></div>"+
@@ -732,7 +738,7 @@ function msgOf(r){
     (r.src?"Origen: "+r.src+"\n":"")+
     (r.pas?"Pastel: "+r.pas+"\n":"")+
     (r.lug?"Lugar: "+r.lug+"\n":"")+
-    (r.acu?"A cuenta: $"+r.acu:"");
+    (r.acu?"A cuenta: "+r.acu+"\\n":"")+(r.cob?"Por cobrar: "+r.cob:"");
 }
 function openForm(id){
   const r=id?S.res.filter(function(x){return x.id===id;})[0]:null;
@@ -742,7 +748,7 @@ function openForm(id){
   $("#fPh").innerHTML=ph?'<img src="'+ph+'" alt="">':b.e;
   $("#fName").textContent=b.n;
   $("#fDate").textContent=longD(d);
-  setVal("fCli",r?r.cli:"");setVal("fPas",r?r.pas:"");setVal("fLug",r?r.lug:"");setVal("fAcu",r?r.acu:"");setVal("fSrc",r?r.src:"");
+  setVal("fCli",r?r.cli:"");setVal("fPed",r?r.ped:"");setVal("fDeco",r?r.deco:"");setVal("fCob",r?r.cob:"");setVal("fLug",r?r.lug:"");setVal("fAcu",r?r.acu:"");setVal("fSrc",r?r.src:"");
   $("#fErr").hidden=true;
   ["wCli","wPas","wLug","wAcu","wSrc"].forEach(function(x){$("#"+x).classList.remove("bad");});
   V.formB=b.id;V.formD=d;
@@ -861,7 +867,7 @@ function tutNext(){if(tutI>=TUT.length-1)tutClose();else tutShow(tutI+1);}
 function boot(){
   const t=today();
   V.cal=parseD(startDay());
-  $$("#fPas,#fLug").forEach(function(el){el.addEventListener("input",function(){grow(el);});});
+  $$("#fPed,#fDeco,#fLug").forEach(function(el){el.addEventListener("input",function(){grow(el);});});
   renderBases();renderAgenda();renderResv();
   window.addEventListener("resize",function(){if(!$("#tut").hidden)tutPos();});
   window.addEventListener("scroll",function(){if(!$("#tut").hidden)tutPos();},true);
