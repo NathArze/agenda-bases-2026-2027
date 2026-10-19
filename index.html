@@ -826,6 +826,18 @@ if(a==="pickbase"){
   }
   if(a==="fy"){V.agY=t.getAttribute("data-y");renderAgenda();return;}
   if(a==="fb"){V.agB=t.getAttribute("data-b");renderAgenda();return;}
+  if(a==="copy-apartar"){
+    const t=ev.target.closest("[data-act]");
+    V.base=t.getAttribute("data-b")||V.base;
+    V.date=t.getAttribute("data-d");
+    V.last={b:V.base,d:V.date};
+    const id="c"+Date.now();
+    S.res.unshift({id:id,d:V.date,b:V.base,cli:t.getAttribute("data-cli")||"",ped:t.getAttribute("data-ped")||"",deco:t.getAttribute("data-deco")||"",lug:t.getAttribute("data-lug")||"",acu:t.getAttribute("data-acu")||"",cob:t.getAttribute("data-cob")||"",src:t.getAttribute("data-src")||""});
+    save();
+    const c=$("#resvCnt");c.textContent=S.res.length;c.hidden=!S.res.length;
+    openForm(id);
+    return;
+  }
   if(a==="tut-next"){tutNext();return;}
   if(a==="tut-skip"){tutClose();return;}
   if(a==="help"){tutShow(0);return;}
