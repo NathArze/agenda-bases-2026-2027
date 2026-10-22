@@ -7,6 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Bases 2026–2028 · Disponibilidad</title>
 <style>
+:root{--supUrl:"https://fnzcnwudlcdzmjskgxmx.supabase.co";--supKey:"sb_publishable_YZiafQ78nmB58ofsDznsQA_0Th-7rOg";--adminPass:"sayurieslamejor";}
+
 :root{
   --rosa:#fc63a9; --rosa-d:#a81148; --rosa-l:#ffd9e8; --rosa-ll:#fdf3f7;
   --green:#7dccb2; --green-d:#4f9e88; --green-l:#e6f5f0; --green-ink:#123d31;
@@ -839,6 +841,30 @@ if(a==="pickbase"){
     openForm(id);
     return;
   }
+  if(a==="send-pedido"){
+    try{
+      const data={cli:val('sCli'),tel:val('sTel'),d:val('sDate'),base:val('sBase'),src:val('sSrc'),ped:val('sPed'),deco:val('sDeco'),lug:val('sLug'),acu:val('sAcu'),cob:val('sCob')};
+      if(!data.cli||!data.d){alert('Falta cliente o fecha');return;}
+      await supaInsert('pending_orders',{status:'pending',data:data});
+      document.getElementById('sMsg').textContent='Pedido enviado. Espera a que lo aprueben.';document.getElementById('sMsg').hidden=false;
+      ['sCli','sTel','sPed','sDeco','sLug','sAcu','sCob'].forEach(x=>{const el=document.getElementById(x);if(el)el.value='';});
+      document.getElementById('sBase').value='';document.getElementById('sSrc').value='';document.getElementById('sDate').value='';
+    }catch(e){alert('Error al enviar');}
+    return;
+  }
+  if(a==="admin-login"){
+    if(val('admPass')===ADMIN_PASS){admAuthed=true;document.getElementById('adminGate').hidden=true;document.getElementById('adminPanel').hidden=false;loadAdmin();}else{alert('Contraseña incorrecta');}
+    return;
+  }
+  if(a==="adm-approve"){
+    const id=t.getAttribute('data-id');const rec=JSON.parse(decodeURIComponent(t.getAttribute('data-rec')));
+    EVENTS.push({d:rec.d,tm:'',c:rec.cli||'',tel:rec.tel||'',bs:rec.base?[rec.base]:[],rl:[],bt:BM[rec.base]?BM[rec.base].n:'Sin base',o:(rec.ped||'')+(rec.deco?' · Deco: '+rec.deco:''),pr:rec.ped?rec.ped:'—',ad:(rec.acu?('A cuenta '+rec.acu):'')+(rec.cob?(' · Por cobrar '+rec.cob):'')||'—',de:rec.lug||''});
+    renderAgenda();await supaUpd('pending_orders',id,{status:'approved'});loadAdmin();
+    return;
+  }
+  if(a==="adm-reject"){
+    const id=t.getAttribute('data-id');await supaUpd('pending_orders',id,{status:'rejected'});loadAdmin();return;
+  }
   if(a==="tut-next"){tutNext();return;}
   if(a==="tut-skip"){tutClose();return;}
   if(a==="help"){tutShow(0);return;}
@@ -877,6 +903,13 @@ function tutShow(i){
 function tutClose(){$("#tut").hidden=true;try{localStorage.setItem(TUT_KEY,"1");}catch(e){}}
 function tutNext(){if(tutI>=TUT.length-1)tutClose();else tutShow(tutI+1);}
 
+const SUPA_URL = (getComputedStyle(document.documentElement).getPropertyValue('--supUrl')||'').trim().replace(/["']/g,'');
+const SUPA_KEY = (getComputedStyle(document.documentElement).getPropertyValue('--supKey')||'').trim().replace(/["']/g,'');
+const ADMIN_PASS = (getComputedStyle(document.documentElement).getPropertyValue('--adminPass')||'').trim().replace(/["']/g,'');
+let admAuthed=false;
+async function supaInsert(tbl,obj){ const r=await fetch(SUPA_URL+'/rest/v1/'+tbl,{method:'POST',headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(obj)}); if(!r.ok)throw new Error('err'); return r.json();}
+async function supaList(tbl,qs){ const q=qs?'?'+qs:''; const r=await fetch(SUPA_URL+'/rest/v1/'+tbl+q,{headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}}); if(!r.ok)throw new Error('err'); return r.json();}
+async function supaUpd(tbl,id,obj){ const r=await fetch(SUPA_URL+'/rest/v1/'+tbl+'?id=eq.'+id,{method:'PATCH',headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(obj)}); if(!r.ok)throw new Error('err'); return r.json();}
 function boot(){
   const t=today();
   V.cal=parseD(startDay());
