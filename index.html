@@ -865,7 +865,7 @@ if(a==="pickbase"){
   if(a==="adm-reject"){
     const id=t.getAttribute('data-id');await supaUpd('pending_orders',id,{status:'rejected'});loadAdmin();return;
   }
-  if(a==="pedidos-hoy"){const tdy=today();const list=EVENTS.filter(function(e){return e.d===tdy;});if(list.length===0){alert("No hay pedidos para hoy");return;}let out="PEDIDOS HOY ("+tdy+")\n\n";list.forEach(function(e,i){out+=(i+1)+". "+(e.tm||"--")+ " | "+(e.c||"Sin cliente")+" | Tel:"+ (e.tel||"")+" | Base:"+(e.bt||"")+" | Pedido:"+(e.o||"")+" | A cuenta/Pago:"+(e.ad||"")+" | Lugar:"+(e.de||"")+"\n";});alert(out);return;}  if(a==="tut-next"){tutNext();return;}
+  if(a==="tut-next"){tutNext();return;}
   if(a==="tut-skip"){tutClose();return;}
   if(a==="help"){tutShow(0);return;}
 });
