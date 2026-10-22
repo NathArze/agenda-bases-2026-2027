@@ -300,6 +300,7 @@ p.lead{margin:0 0 16px;font-size:14.5px;font-weight:700;color:var(--sub)}
 
     <section class="sc" id="sc-agenda">
       <p class="lead" id="agSub">—</p>
+      <div class="pbar"><button class="btn sm" data-act="add-event">+ Agregar pedido (sin base / manual)</button></div>
       <h2>Año</h2>
       <div class="chips" id="agYears"></div>
       <h2>Base</h2>
@@ -826,7 +827,7 @@ if(a==="pickbase"){
   }
   if(a==="fy"){V.agY=t.getAttribute("data-y");renderAgenda();return;}
   if(a==="fb"){V.agB=t.getAttribute("data-b");renderAgenda();return;}
-  if(a==="copy-apartar"){
+  if(a==="add-event"){const d=prompt("Fecha (YYYY-MM-DD):",V.date||today());if(!d)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const c=prompt("Cliente:","");const tm=prompt("Hora:","");const tel=prompt("Tel:","");const bt=prompt("Base/Tipo:","Sin base");const o=prompt("Pedido:","");const pr=prompt("Precio:","—");const ad=prompt("Pago:","—");const de=prompt("Lugar:","—");EVENTS.push({d:d,tm:tm||"",c:c||"",tel:tel||"",bs:[],rl:[],bt:bt||"Sin base",o:o||"",pr:pr||"—",ad:ad||"—",de:de||"—"});renderAgenda();go("agenda");return;}    if(a==="copy-apartar"){
     const t=ev.target.closest("[data-act]");
     V.base=t.getAttribute("data-b")||V.base;
     V.date=t.getAttribute("data-d");
