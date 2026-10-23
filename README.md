@@ -1,35 +1,32 @@
-# Agenda de bases 2026–2027
+# Agenda de bases · Dolce Meza
 
-App de una sola página (HTML) para consultar **si una base de pastel está libre o ya está comprometida** en una fecha, con los pedidos de 2026 y 2027.
+Aplicación web para consultar la disponibilidad de las bases, revisar los pedidos agendados, enviar solicitudes y administrar su aprobación.
 
-No necesita internet, servidor ni instalación: abre `index.html` en el navegador del celular y ya funciona. Todo se guarda en el navegador (localStorage), así que las reservas que apartas se quedan en tu equipo.
+## Funciones
 
-## Cómo se usa
+- 8 bases con fotografía y calendario de disponibilidad.
+- Agenda completa con filtros por año, base y búsqueda.
+- Solicitudes de pedidos o apartados de base.
+- Panel de administrador para aprobar o rechazar solicitudes.
+- Correcciones de pedidos agendados con aprobación del administrador.
+- Respaldo local si se pierde la conexión.
 
-1. **Bases** — toca la base que quieres apartar. Cada tarjeta muestra si está `libre` o cuántas fechas tiene ocupadas, y la próxima fecha en la que no está comprometida.
-2. **Calendario** — elige el día. Los puntos rojos marcan los días en que **esa base ya está ocupada**; los grises marcan días con otro evento de otra base.
-3. **Resultado** — veredicto: `DISPONIBLE`, `OCUPADA` o `LIBRE` (con la advertencia de que ese día usaron una base parecida). Abajo aparece la ficha del evento que la ocupa: cliente, teléfono, base, pedido, precio, anticipo y lugar.
-4. **Apartar** — si está libre, la apartas y capturas **cliente, pastel, lugar del evento y lo que dejó a cuenta**. Se guarda en la pestaña 🔖 *Apartadas*, que además avisa si esa fecha choca con un evento ya agendado.
+## Uso
 
-También hay dos pestañas de consulta: **📅 Agenda** (los 28 eventos, con filtros por año y por base) y **🔖 Apartadas**.
-
-## Contenido
-
-- 15 bases (8 con fotografía, el resto con emoji).
-- 28 eventos: 18 en 2026 (jul–dic) y 10 en 2027 (ene–nov).
-- Las fotos de las bases van incrustadas en el propio HTML (comprimidas en base64) para que el archivo sea autónomo.
-
-## Nota de privacidad
-
-El repositorio es **privado** porque el archivo contiene nombres de clientes y sus teléfonos. Si alguna vez se hace público, esa información queda expuesta: conviene.ofuscar o quitar los teléfonos antes.
+Abre `index.html` directamente en el navegador o entra a la versión publicada en GitHub Pages.
 
 ## Estructura
 
 ```
-index.html   toda la aplicación (HTML + CSS + JS en un solo archivo)
+index.html   interfaz y estilos
+data.js      configuración, bases y pedidos
+app.js       lógica de calendario, agenda y administración
+assets/      fotografías de las bases y logotipo
+events.json  pedidos base en formato JSON
 ```
 
-## Recomendaciones
+Las solicitudes y correcciones se guardan en Supabase. Las aprobadas se reflejan automáticamente en la agenda y bloquean la base correspondiente.
 
-- Added para consultar en el celular: ábrelo con Chrome/Safari y usa "Añadir a pantalla de inicio" para tener un ícono como si fuera app.
-- Si editas la lista de pedidos, los datos están en dos arreglos al inicio del `<script>`: `BASES` (catálogo de bases) y `EVENTS` (los pedidos). Cada evento usa `bs` (bases que ocupa, bloquean el calendario) y `rl` (bases parecidas, solo avisan).
+## Privacidad
+
+El repositorio contiene nombres y teléfonos de clientes. Si el repositorio es público, esa información también es pública.
