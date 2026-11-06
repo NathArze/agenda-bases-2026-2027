@@ -2,6 +2,7 @@ const SUPABASE_URL = 'https://fnzcnwudlcdzmjskgxmx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_YZiafQ78nmB58ofsDznsQA_0Th-7rOg';
 const SUPABASE_TABLE = 'pending_orders';
 const ADMIN_PASSWORD = 'sayurieslamejor';
+const ORIGINS = ['Expo CCU mayo 2026', 'Expo Hacienda Lomas 26', 'Expo CCU octubre'];
 const BASES = [
  {
   "id": "perla8",

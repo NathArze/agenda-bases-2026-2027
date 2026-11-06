@@ -136,6 +136,7 @@ function normReq(row) {
     order: source.order || source.o || data.order || '',
     deco: source.deco || data.deco || '',
     place: source.place || source.de || data.place || '',
+    origins: source.origen || source.org || data.origen || '',
     price: source.price || source.pr || data.price || '',
     deposit: source.deposit || source.ad || data.deposit || '',
     notes: source.notes || data.notes || '',
@@ -159,6 +160,7 @@ function requestPayload(r) {
     place: r.place,
     price: r.price,
     deposit: r.deposit,
+    origen: r.origins,
     notes: r.notes,
     createdAt: r.createdAt
   };
@@ -180,6 +182,7 @@ function requestEvent(r) {
     ad: r.deposit,
     de: r.place,
     deco: r.deco,
+    org: r.origen,
     notes: r.notes,
     source: 'request'
   };
@@ -458,6 +461,7 @@ function eventCard(e) {
           ${e.tm ? `<div class="event-row"><u>Hora</u><span>${esc(e.tm)}</span></div>` : ''}
           ${e.o ? `<div class="event-row"><u>Pedido</u><span>${esc(e.o)}</span></div>` : ''}
           ${e.deco ? `<div class="event-row"><u>Decoración</u><span>${esc(e.deco)}</span></div>` : ''}
+          ${e.org ? `<div class="event-row"><u>Origen</u><span>${esc(e.org)}</span></div>` : ''}
           ${e.de ? `<div class="event-row"><u>Lugar</u><span>${esc(e.de)}</span></div>` : ''}
           ${e.pr ? `<div class="event-row"><u>Precio</u><span>${esc(money(e.pr))}</span></div>` : ''}
           ${e.ad ? `<div class="event-row"><u>Anticipo</u><span>${esc(money(e.ad))}</span></div>` : ''}
@@ -495,7 +499,7 @@ function renderAgenda() {
     if (year && !String(e.d).startsWith(year)) return false;
     if (baseFilter && !(Array.isArray(e.bs) && e.bs.includes(baseFilter))) return false;
     if (!query) return true;
-    const haystack = cleanText([e.c, e.tel, e.bt, e.o, e.de, e.deco, e.pr, e.ad, ...(e.bs || []).map(id => BM[id] ? BM[id].n : id)].join(' '));
+    const haystack = cleanText([e.c, e.tel, e.bt, e.o, e.de, e.deco, e.org, e.pr, e.ad, ...(e.bs || []).map(id => BM[id] ? BM[id].n : id)].join(' '));
     return haystack.includes(query);
   });
   $('#agendaSummary').textContent = `${list.length} pedido${list.length === 1 ? '' : 's'} en la agenda`;
@@ -581,7 +585,7 @@ function clearFormMessage() {
   msg.textContent = '';
 }
 
-const EDIT_FIELDS = { c: 'Cliente', tel: 'Teléfono', d: 'Fecha', tm: 'Hora', bs: 'Base', bt: 'Base / tipo', o: 'Pedido', deco: 'Decoración', de: 'Lugar', pr: 'Precio', ad: 'Abonos' };
+const EDIT_FIELDS = { c: 'Cliente', tel: 'Teléfono', d: 'Fecha', tm: 'Hora', bs: 'Base', bt: 'Base / tipo', o: 'Pedido', deco: 'Decoración', de: 'Lugar', org: 'Origen', pr: 'Precio', ad: 'Abonos' };
 
 function editDisplay(key, value) {
   if (key === 'bs') {
@@ -614,6 +618,7 @@ function requestAdminCard(r) {
         <div class="row"><u>Pedido</u><span>${esc(r.order || '—')}</span></div>
         ${r.deco ? `<div class="row"><u>Decoración</u><span>${esc(r.deco)}</span></div>` : ''}
         <div class="row"><u>Lugar</u><span>${esc(r.place || '—')}</span></div>
+        ${r.origins ? `<div class="row"><u>Origen</u><span>${esc(r.origins)}</span></div>` : ''}
         <div class="row"><u>Precio</u><span>${esc(money(r.price))}</span></div>
         <div class="row"><u>Anticipo</u><span>${esc(money(r.deposit))}</span></div>
         <div class="row"><u>Teléfono</u><span>${esc(r.phone || '—')}</span></div>
@@ -785,6 +790,7 @@ async function submitForm(event) {
   const order = $('#rPed').value.trim();
   const deco = $('#rDeco').value.trim();
   const place = $('#rPlace').value.trim();
+  const origin = $('#rOrigin').value;
   const price = $('#rPrice').value.trim();
   const deposit = $('#rDeposit').value.trim();
   let bad = false;
@@ -805,6 +811,7 @@ async function submitForm(event) {
     type, client, phone, date, time, base,
     baseName: base && BM[base] ? BM[base].n : 'Sin base',
     people, order, deco, place, price, deposit,
+    origen: origin,
     createdAt: new Date().toISOString()
   };
   const button = $('#reqSubmit');
@@ -878,6 +885,13 @@ function populateEditBases() {
   $('#eBase').innerHTML = '<option value="">Sin base / elegir después</option>' + BASES.map(b => `<option value="${esc(b.id)}">${esc(b.n)} · ${esc(b.d)}</option>`).join('');
 }
 
+function populateOrigins() {
+  const empty = '<option value="">— Sin origen —</option>';
+  const options = ORIGINS.map(origin => `<option value="${esc(origin)}">${esc(origin)}</option>`).join('');
+  $('#rOrigin').innerHTML = empty + options;
+  $('#eOrigin').innerHTML = empty + options;
+}
+
 function cleanField(value) {
   return value === '—' ? '' : String(value ?? '');
 }
@@ -904,6 +918,7 @@ function openEdit(id) {
   $('#ePed').value = cleanField(event.o);
   $('#eDeco').value = cleanField(event.deco);
   $('#ePlace').value = cleanField(event.de);
+  $('#eOrigin').value = cleanField(event.org) && ORIGINS.includes(String(event.org)) ? String(event.org) : '';
   $('#ePrice').value = cleanField(event.pr);
   $('#eDeposit').value = cleanField(event.ad);
   $('#editMsg').className = 'form-msg hidden';
@@ -934,6 +949,7 @@ async function submitEdit(event) {
   const order = $('#ePed').value.trim();
   const deco = $('#eDeco').value.trim();
   const place = $('#ePlace').value.trim();
+  const origin = $('#eOrigin').value;
   const price = $('#ePrice').value.trim();
   const deposit = $('#eDeposit').value.trim();
   let bad = false;
@@ -956,6 +972,7 @@ async function submitEdit(event) {
     o: order,
     deco,
     de: place,
+    org: origin,
     pr: price,
     ad: deposit
   };
@@ -969,6 +986,7 @@ async function submitEdit(event) {
     o: cleanField(target.o),
     deco: cleanField(target.deco),
     de: cleanField(target.de),
+    org: cleanField(target.org),
     pr: cleanField(target.pr),
     ad: cleanField(target.ad)
   };
@@ -1096,6 +1114,7 @@ function init() {
   populateAgendaFilters();
   populateRequestBases();
   populateEditBases();
+  populateOrigins();
   setReqType('pedido');
   $('#rDate').min = todayStr();
   $('#eDate').min = '2026-01-01';
