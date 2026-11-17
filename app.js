@@ -140,6 +140,7 @@ function normReq(row) {
     price: source.price || source.pr || data.price || '',
     deposit: source.deposit || source.ad || data.deposit || '',
     notes: source.notes || data.notes || '',
+    ip: source.ip || data.ip || '',
     raw,
     payload: data
   };
@@ -256,7 +257,19 @@ async function supa(path = '', options = {}) {
   return text ? JSON.parse(text) : null;
 }
 
+async function getIp() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    return data.ip || '';
+  } catch {
+    return '';
+  }
+}
+
 async function postRequest(payload) {
+  const ip = await getIp();
+  if (ip) payload.ip = ip;
   const rows = await supa('', {
     method: 'POST',
     headers: { Prefer: 'return=representation' },
@@ -627,6 +640,7 @@ function requestAdminCard(r) {
         <div class="row"><u>Precio</u><span>${esc(money(r.price))}</span></div>
         <div class="row"><u>Anticipo</u><span>${esc(money(r.deposit))}</span></div>
         <div class="row"><u>Teléfono</u><span>${esc(r.phone || '—')}</span></div>
+        ${r.ip ? `<div class="row"><u>IP</u><span>${esc(r.ip)}</span></div>` : ''}
         ${r.notes ? `<div class="row"><u>Nota</u><span>${esc(r.notes)}</span></div>` : ''}
       </div>
       <div class="admin-actions">
@@ -647,6 +661,7 @@ function editAdminCard(r) {
       <h4>${esc(r.targetLabel || r.client || 'Pedido agendado')}</h4>
       <div class="when">Solicitud de actualización</div>
       <div class="rows">${diff || '<div class="row"><u>Cambios</u><span>Sin diferencias</span></div>'}</div>
+      ${r.ip ? `<div class="rows"><div class="row"><u>IP</u><span>${esc(r.ip)}</span></div></div>` : ''}
       <div class="admin-actions">
         <button class="btn green" type="button" data-approve="${esc(r.id)}">Aprobar cambios</button>
         <button class="btn danger" type="button" data-reject="${esc(r.id)}">Rechazar</button>
