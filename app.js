@@ -431,12 +431,13 @@ function renderBusyDates() {
     $('#busyDates').innerHTML = `<div class="empty">${esc(base.n)} no tiene fechas ocupadas en la agenda.</div>`;
     return;
   }
+  $('#busyTitle').textContent = `Fechas ocupadas de ${base.n}`;
   $('#busyDates').innerHTML = list.map(e => {
     const d = fromYMD(e.d);
     return `
       <button class="busy-row" type="button" data-goto-agenda="${esc(e.d)}">
         <span class="bd"><b>${d.getDate()}</b><small>${MONTHS_SHORT[d.getMonth()]}</small></span>
-        <span class="bt">${esc(e.c || 'Sin cliente')}<small>${esc(e.bt || base.n)}${e.tm ? ` · ${esc(e.tm)}` : ''}</small></span>
+        <span class="bt">${esc(e.c || 'Sin cliente')}<small>${esc(base.n)}${e.tm ? ` · ${esc(e.tm)}` : ''}</small></span>
       </button>`;
   }).join('');
 }
