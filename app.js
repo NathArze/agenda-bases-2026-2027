@@ -221,6 +221,10 @@ function busyEvents(baseId, date) {
   return allEvents().filter(e => e.d === date && Array.isArray(e.bs) && e.bs.includes(baseId));
 }
 
+function busyEventsExcept(baseId, date, excludeId) {
+  return busyEvents(baseId, date).filter(e => e.id !== excludeId);
+}
+
 function eventsOn(date) {
   return allEvents().filter(e => e.d === date);
 }
@@ -924,7 +928,7 @@ function openEdit(id) {
   $('#eDeposit').value = cleanField(event.ad);
   $('#editMsg').className = 'form-msg hidden';
   $('#editMsg').textContent = '';
-  ['#editFieldCli', '#editFieldDate', '#editFieldPed'].forEach(selector => $(selector).classList.remove('bad'));
+  ['#editFieldCli', '#editFieldDate', '#editFieldPed', '#editFieldBase'].forEach(selector => $(selector).classList.remove('bad'));
   $('#editModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   setTimeout(() => $('#eCli').focus(), 120);
@@ -941,7 +945,7 @@ async function submitEdit(event) {
   const target = state.editTarget;
   if (!target) return;
   $('#editMsg').className = 'form-msg hidden';
-  ['#editFieldCli', '#editFieldDate', '#editFieldPed'].forEach(selector => $(selector).classList.remove('bad'));
+  ['#editFieldCli', '#editFieldDate', '#editFieldPed', '#editFieldBase'].forEach(selector => $(selector).classList.remove('bad'));
   const client = $('#eCli').value.trim();
   const phone = $('#eTel').value.trim();
   const date = $('#eDate').value;
@@ -963,6 +967,14 @@ async function submitEdit(event) {
   }
   const oldBase = Array.isArray(target.bs) ? (target.bs[0] || '') : '';
   const baseChanged = base !== oldBase;
+  const dateChanged = date !== target.d;
+  if ((baseChanged || dateChanged) && base && busyEventsExcept(base, date, target.id).length) {
+    $('#editFieldDate').classList.add('bad');
+    $('#editFieldBase').classList.add('bad');
+    const baseName = BM[base] ? BM[base].n : 'esa base';
+    showEditMessage(`${baseName} ya está ocupada el ${shortDate(date)}. Cambia la fecha o la base para continuar.`, 'bad');
+    return;
+  }
   const changes = {
     c: client,
     tel: phone,
