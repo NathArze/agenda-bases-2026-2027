@@ -59,6 +59,13 @@ const BASES = [
   "d": "Carruaje Cenicienta de 8 con luz",
   "img": "assets/carruaje.jpg",
   "tag": "8 piezas"
+ },
+ {
+  "id": "clarines7",
+  "n": "Clarines de 7",
+  "d": "Juego de 7 clarines decorativos",
+  "img": "assets/clarines7.jpg",
+  "tag": "7 piezas"
  }
 ];
 const EVENTS = [
